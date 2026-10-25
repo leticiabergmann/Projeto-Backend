@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Equipe {
+  id      Int      @id @default(autoincrement())
+  lider   String
+  membros String
+  projetos Projeto[]
+}
+
+model Projeto {
+  id          Int      @id @default(autoincrement())
+  nome        String
+  cliente     String
+  dataInicio  String
+  dataEntrega String
+  status      String   @default("nao iniciado")
+  idEquipe    Int?
+  equipe      Equipe?  @relation(fields: [idEquipe], references: [id])
+}
